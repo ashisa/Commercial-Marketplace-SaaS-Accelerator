@@ -377,6 +377,8 @@ Write-host "      ➡️ Create Web App"
 az webapp create -g $ResourceGroupForDeployment -p $WebAppNameService -n $WebAppNameAdmin  --runtime dotnet:6 --output $azCliOutput
 Write-host "      ➡️ Assign Identity"
 $WebAppNameAdminId = az webapp identity assign -g $ResourceGroupForDeployment  -n $WebAppNameAdmin --identities [system] --query principalId -o tsv
+Write-host "      ➡️ Sleeping for 5-seconds for identity propagation"
+Start-Sleep -Seconds 5
 Write-host "      ➡️ Setup access to KeyVault"
 az role assignment create --assignee $WebAppNameAdminId --scope /subscriptions/$AzureSubscriptionID/resourceGroups/$ResourceGroupForDeployment --role "Key Vault Secrets User" --output $azCliOutput
 Write-host "      ➡️ Set Configuration"
@@ -389,6 +391,8 @@ Write-host "      ➡️ Create Web App"
 az webapp create -g $ResourceGroupForDeployment -p $WebAppNameService -n $WebAppNamePortal --runtime dotnet:6 --output $azCliOutput
 Write-host "      ➡️ Assign Identity"
 $WebAppNamePortalId= az webapp identity assign -g $ResourceGroupForDeployment  -n $WebAppNamePortal --identities [system] --query principalId -o tsv 
+Write-host "      ➡️ Sleeping for 5-seconds for identity propagation"
+Start-Sleep -Seconds 5
 Write-host "      ➡️ Setup access to KeyVault"
 az role assignment create --assignee $WebAppNamePortalId --scope /subscriptions/$AzureSubscriptionID/resourceGroups/$ResourceGroupForDeployment --role "Key Vault Secrets User" --output $azCliOutput
 Write-host "      ➡️ Set Configuration"
