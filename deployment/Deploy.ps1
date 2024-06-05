@@ -361,6 +361,8 @@ Write-host "      ➡️ Create KeyVault"
 az keyvault create --name $KeyVault --resource-group $ResourceGroupForDeployment --output $azCliOutput
 Write-host "      ➡️ Create Role Assignments"
 az role assignment create --role "Key Vault Secrets Officer" --assignee $userUpn --scope /subscriptions/$AzureSubscriptionID/resourcegroups/$ResourceGroupForDeployment --output $azCliOutput
+Write-host "      ➡️ Sleeping for 5-seconds for propagation"
+Start-Sleep -Seconds 5
 Write-host "      ➡️ Add Secrets"
 az keyvault secret set --vault-name $KeyVault --name ADApplicationSecret --value="$ADApplicationSecret" --output $azCliOutput
 az keyvault secret set --vault-name $KeyVault --name DefaultConnection --value $Connection --output $azCliOutput
